@@ -12,7 +12,6 @@ const loginUser = async(req:ExtendedNextApiRequestUser, res:NextApiResponse<ResM
     try {
         await connectDB()
         const savedUserData: SavedUserDataType | null = await UserModel.findOne({email: req.body.email})
-        console.log(savedUserData)
         if(savedUserData) {
             if(req.body.password === savedUserData.password) {
                 const payload = {
@@ -21,7 +20,6 @@ const loginUser = async(req:ExtendedNextApiRequestUser, res:NextApiResponse<ResM
 
                 const token = jwt.sign(payload, secret_key, {expiresIn: "23h"})
 
-                console.log(token)
                 return res.status(200).json({message: "ログイン成功", token: token})
 
             } else {
